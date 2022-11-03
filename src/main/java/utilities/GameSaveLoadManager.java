@@ -1,4 +1,4 @@
-package boardgame;
+package utilities;
 
 public class GameSaveLoadManager {
     

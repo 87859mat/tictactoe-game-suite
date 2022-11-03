@@ -7,6 +7,8 @@ import boardgame.Saveable;
  * This class represents a game of tic tac toe and 
  * is responsible for tracking and manipulating the state
  * of that tic tac toe game
+ * 
+ * @author Eyoel Matiwos
  */
 public class TicTacToeGame extends BoardGame implements Saveable {
     private enum GameState{XTURN, OTURN, XWIN, OWIN, TIE};
@@ -20,6 +22,7 @@ public class TicTacToeGame extends BoardGame implements Saveable {
     public TicTacToeGame() {
         super(3,3);
         this.state = GameState.XTURN;
+        this.setGrid(new TicTacToeGrid());
     }
 
     /**
@@ -33,6 +36,11 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         return "Tic tac tac game\nTurn/state: " + stateToTurnString() + "\n\n" + this.getGrid().toString();
     }
 
+    /**
+     * Takes this game's {@code state} attribute and returns a string representation
+     * of it
+     * @return a string representing the state of the board
+     */
     protected String stateToTurnString() {
         if(this.getState() == GameState.XTURN) {
             return "X";
