@@ -33,7 +33,7 @@ public class TicTacToeGame extends BoardGame implements Saveable {
      */
     @Override
     public String toString() {
-        return "Tic tac tac game\nTurn/state: " + stateToTurnString() + "\n\n" + this.getGrid().toString();
+        return "***Tic tac tac game***\nTurn/state: " + getGameStateMessage() + "\n\n" + this.getGrid().toString();
     }
 
     /**
@@ -41,11 +41,12 @@ public class TicTacToeGame extends BoardGame implements Saveable {
      * of it
      * @return a string representing the state of the board
      */
-    protected String stateToTurnString() {
+    @Override
+    public String getGameStateMessage(){
         if(this.getState() == GameState.XTURN) {
-            return "X";
+            return "X's turn";
         } else if (this.getState() == GameState.OTURN) {
-            return "O";
+            return "O's turn";
         } else if (this.getState() == GameState.XWIN){
             return "X has won";
         } else if (this.getState() == GameState.OWIN) {
@@ -54,6 +55,24 @@ public class TicTacToeGame extends BoardGame implements Saveable {
             return "tie game";
         } else {
             return null;
+        }
+    }
+
+    public String getCurrentCharacter() {
+        if(this.state==GameState.XTURN) {
+            return "X";
+        } else if(this.state==GameState.OTURN) {
+            return "O";
+        } else {
+            return null;
+        }
+    }
+
+    private void switchTurns() {
+        if(this.state == GameState.XTURN) {
+            this.setState(GameState.OTURN);
+        } else if(this.state == GameState.OTURN) {
+            this.setState(GameState.XTURN);
         }
     }
 
