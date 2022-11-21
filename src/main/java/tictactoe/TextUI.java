@@ -24,7 +24,7 @@ public class TextUI {
             System.out.print("Boxes are numbered from left to right with box #1 being the top left box, box #2");
             System.out.println(" being the top middle box, and box #9 being the bottom right box");
             playerInput = inputScanner.nextLine();
-            move = getGetMoveFromInput(playerInput);
+            move = getGetMoveFromInput(playerInput) - 1;
             if(this.tGame.takeTurn(move % 3, move/3, this.tGame.getCurrentCharacter())){
                 validMove = true;
             } else {
