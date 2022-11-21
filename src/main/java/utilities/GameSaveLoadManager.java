@@ -3,6 +3,7 @@ package utilities;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -15,17 +16,67 @@ import boardgame.Saveable;
  * @author Eyoel Matiwos
  */
 public class GameSaveLoadManager {
-    public static boolean loadGame(Saveable gameToSee, String filename, char[] validTurns, char[] validMoves) {
+    public static boolean save(Saveable toSave, String fileName) {
+        try(FileWriter fWriter = new FileWriter(fileName)) {
+            fWriter.write(toSave.getStringToSave());
+        } catch(IOException e) {
+            return false;
+        }
+
+        return true;
+    }
+    public static boolean loadGame(Saveable game, String filename, char[] validTurns, char[] validMoves) {
         String fileString = getStringFromFile(filename);
         if(fileString == null){
             return false;
         } else if(!validGameString(fileString, validTurns, validMoves)) {
             return false;
         } else {
-            gameToSee.loadSavedString(fileString);
+            game.loadSavedString(fileString);
             return true;
         }
     }
+
+    public static boolean loadPlayer(Saveable player, String filename) {
+        String fileString = getStringFromFile(filename);
+        if(fileString == null){
+            return false;
+        } else if(!validPlayerString(fileString)) {
+            return false;
+        } else {
+            player.loadSavedString(fileString);
+            return true;
+        }
+    }
+
+    private static boolean validPlayerString(String fileString) {
+        String[] seperated = fileString.split(",");
+        int gamesPlayed;
+        int gamesWon;
+        
+        if(seperated.length != 3) {
+            return false;
+        }
+
+        try {
+            gamesPlayed = Integer.parseInt(seperated[1]);
+            gamesWon = Integer.parseInt(seperated[2]);
+
+            if(gamesPlayed < gamesWon){
+                return false;
+            } else if(gamesPlayed <0 || gamesWon < 0) {
+                return false;
+            }
+
+        } catch(NumberFormatException e) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    
     
     private static boolean validGameString(String fileString, char[] validTurns, char[] validMoves) {
         if(fileString == null) {
@@ -83,11 +134,11 @@ public class GameSaveLoadManager {
         return false;
     }
 
-    private static String getStringFromFile(String filename) {
+    private static String getStringFromFile(String fileName) {
         String fileString = "";
         String tempString = null;
         
-        try(BufferedReader bReader = new BufferedReader(new FileReader(filename))) {
+        try(BufferedReader bReader = new BufferedReader(new FileReader(fileName))) {
             tempString = bReader.readLine();
             while(tempString != null){
                 tempString = bReader.readLine();
