@@ -14,7 +14,7 @@ public class TicTacToeGrid extends boardgame.Grid{
     @Override
     public String getStringGrid() {
         String tictactoeString;
-        tictactoeString = this.getStringGrid().replace("\n ", "\n-+-+-");
+        tictactoeString = this.getStringGrid().replace(" \n", "\n-+-+-");
         tictactoeString.replace(" ", "|");
         return tictactoeString;
     }

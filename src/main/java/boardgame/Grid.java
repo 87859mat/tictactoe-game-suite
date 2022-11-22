@@ -110,7 +110,7 @@ public  class Grid{
  
         int i=0;
         for(String c: data){
-            toPrint = toPrint + " "+ c;
+            toPrint = toPrint + " " + c;
             i++;
             if(i == width){
                 toPrint = toPrint + "\n";

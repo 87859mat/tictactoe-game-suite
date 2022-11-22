@@ -89,6 +89,7 @@ public class GameSaveLoadManager {
         //create a test sting where empty boxes are represented by spaces for ease of testing
         String testString = fileString.replace(",,", ", ,");
         testString = testString.replace(",\n", ", \n");
+        testString = testString.replace("\n,", "\n ,");
         
         //check to make sure first character in string indicating who's turn it is is properly formatted
         if(!charIsValid(fileString.charAt(0), validTurns)) {

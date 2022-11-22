@@ -139,6 +139,25 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         return new char[]{'X', 'O'};
     }
 
+    /*
+     * The set of characters that are valid for representing moves is
+     * identical to the set of characters valid for representing which 
+     * player's turn it is
+     */
+    public char[] getMoveCharacters() {
+        return getTurnCharacters();
+    }
+
+    private GameState charToState(char stateChar) {
+        if(stateChar == 'X') {
+            return GameState.XTURN;
+        } else if (stateChar == 'O') {
+            return GameState.OTURN;
+        } else {
+            return null;
+        }
+    }
+
     private void switchTurns() {
         if(this.state == GameState.XTURN) {
             this.setState(GameState.OTURN);
@@ -148,12 +167,30 @@ public class TicTacToeGame extends BoardGame implements Saveable {
     }
 
     public String getStringToSave(){
-        return null;
+        String saveString = "";
+        saveString += this.getCurrentCharacter() + "\n";
+        saveString += this.getGrid().toString().replace("-+-+-", "");
+        saveString.replace("|", ",");
+        saveString.replace(" ", "");
+        return saveString;
+
     }
     /* Object parses the string given as a parameter and restores
-    its state based on the values in the string*/
+    its state based on the values in the string
+    Note that this function assumes the String toLoad is valid since any
+    Strings to be loaded should have been checked in GameSaveLoadManager*/
+    @Override
     public void loadSavedString(String toLoad) {
-        
+        String thisLine;
+        String[] lines = toLoad.split("\n");
+        this.setState(this.charToState(lines[0].charAt(0)));
+        for(int i = 1; i < lines.length; i++) {
+            thisLine = lines[i].replace(",", "");
+            for(int j = 0; j < thisLine.length(); j++) {
+                this.setValue(j + 1, i, Character.toString(thisLine.charAt(j)));
+            }
+        }
+        this.setState(charToState(toLoad.charAt(0)));
     }
 
     /**
