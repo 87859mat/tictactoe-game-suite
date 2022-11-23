@@ -39,7 +39,7 @@ public class GameSaveLoadManager {
 
     public static boolean loadPlayer(Saveable player, String filename) {
         String fileString = getStringFromFile(filename);
-        if(fileString == null){
+        if(fileString == null || fileString.length() < 4){ //smallest possible player file is 4 chars long (name = "")
             return false;
         } else if(!validPlayerString(fileString)) {
             return false;
@@ -64,7 +64,7 @@ public class GameSaveLoadManager {
 
             if(gamesPlayed < gamesWon){
                 return false;
-            } else if(gamesPlayed <0 || gamesWon < 0) {
+            } else if(gamesPlayed < 0 || gamesWon < 0) {
                 return false;
             }
 
@@ -79,7 +79,7 @@ public class GameSaveLoadManager {
     
     
     private static boolean validGameString(String fileString, char[] validTurns, char[] validMoves) {
-        if(fileString == null || fileString.length() < 11) {
+        if(fileString == null || fileString.length() < 10) { //empty grid will result in file with 10 characters
             return false;
         }
         
