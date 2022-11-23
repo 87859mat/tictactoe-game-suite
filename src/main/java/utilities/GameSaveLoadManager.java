@@ -79,7 +79,7 @@ public class GameSaveLoadManager {
     
     
     private static boolean validGameString(String fileString, char[] validTurns, char[] validMoves) {
-        if(fileString == null) {
+        if(fileString == null || fileString.length() < 11) {
             return false;
         }
         
@@ -90,6 +90,11 @@ public class GameSaveLoadManager {
         String testString = fileString.replace(",,", ", ,");
         testString = testString.replace(",\n", ", \n");
         testString = testString.replace("\n,", "\n ,");
+        
+        //in case the bottom right box is empty as the above replace() won't be able to insert a space to represent it
+        if(testString.charAt(testString.length() - 1) == ',') { 
+            testString += " "; 
+        }
         
         //check to make sure first character in string indicating who's turn it is is properly formatted
         if(!charIsValid(fileString.charAt(0), validTurns)) {
@@ -110,7 +115,7 @@ public class GameSaveLoadManager {
                 if(numCommas > 2) {
                     return false;
                 }
-            } else if(!charIsValid(current, validMoves)){
+            } else if(!charIsValid(current, validMoves) && current != ' '){
                 return false;
             } else if(i + 1 < testString.length() && testString.charAt(i + 1) != ','
             && testString.charAt(i + 1) != '\n') {
@@ -141,11 +146,12 @@ public class GameSaveLoadManager {
         
         try(BufferedReader bReader = new BufferedReader(new FileReader(fileName))) {
             tempString = bReader.readLine();
-            while(tempString != null){
-                tempString = bReader.readLine();
+            while(tempString != null){ 
                 fileString += tempString;
                 fileString += "\n";
+                tempString = bReader.readLine();
             }
+            fileString = fileString.substring(0, fileString.length() - 1);
 
 
         } catch (IOException e) {

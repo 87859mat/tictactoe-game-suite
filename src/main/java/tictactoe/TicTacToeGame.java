@@ -75,15 +75,68 @@ public class TicTacToeGame extends BoardGame implements Saveable {
     
     /** 
      * Returns true when game is over, false otherwise.  Method must be overridden.
+     * <br>Note that THIS IS THE METHOD THAT CHANGES THE GAME'S STATE MEMBER TO WIN/TIE
+     * so it should be called immedeately after every player move
      * @return boolean
      */
     @Override
     public boolean isDone(){
-        if(this.state == GameState.XWIN || this.state == GameState.OWIN || this.state == GameState.TIE) {
+        if(checkForHorizontalWin("X") || checkForVerticalWin("X") || checkForDiagonalWin("X")) {
+            this.setState(GameState.XWIN);
+            return true;
+        } else if (checkForHorizontalWin("O") || checkForVerticalWin("O") || checkForDiagonalWin("O")) {
+            this.setState(GameState.OWIN);
+            return true;
+        } else if(this.gridIsFull()) {
+            this.setState(GameState.TIE);
             return true;
         } else {
             return false;
         }
+    }
+
+    private boolean checkForHorizontalWin(String player){
+        for(int i = 1; i <= 3; i++) {
+            if(this.getGrid().getValue(i, 1).equals(player) && this.getGrid().getValue(i, 2).equals(player)
+            && this.getGrid().getValue(i, 3).equals(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkForVerticalWin(String player){
+        for(int i = 1; i <= 3; i++) {
+            if(this.getGrid().getValue(1, i).equals(player) && this.getGrid().getValue(2, i).equals(player)
+            && this.getGrid().getValue(3, i).equals(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkForDiagonalWin(String player) {
+        if (this.getGrid().getValue(1,1).equals(player) && this.getGrid().getValue(2,2).equals(player)
+            && this.getGrid().getValue(3,3).equals(player)) {
+            return true;
+        } else if (this.getGrid().getValue(3,1).equals(player) && this.getGrid().getValue(2,2).equals(player)
+            && this.getGrid().getValue(1,3).equals(player)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean gridIsFull() {
+        boolean noEmptySpaces = true;
+        for(int i = 1; i <= 3; i++) {
+            for(int j = 1; j <= 3; j++) {
+                if(this.getGrid().getValue(i,j).equals(" ")) {
+                    noEmptySpaces = false;
+                }
+            }
+        }
+        return noEmptySpaces;
     }
    
     /**
@@ -169,9 +222,9 @@ public class TicTacToeGame extends BoardGame implements Saveable {
     public String getStringToSave(){
         String saveString = "";
         saveString += this.getCurrentCharacter() + "\n";
-        saveString += this.getGrid().toString().replace("-+-+-", "");
-        saveString.replace("|", ",");
-        saveString.replace(" ", "");
+        saveString += this.getGrid().toString().replace("-+-+-\n", "");
+        saveString = saveString.replace("|", ",");
+        saveString = saveString.replace(" ", "");
         return saveString;
 
     }
