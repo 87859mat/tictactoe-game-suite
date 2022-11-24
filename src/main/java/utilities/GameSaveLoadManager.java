@@ -82,26 +82,26 @@ public class GameSaveLoadManager {
         if(fileString == null || fileString.length() < 10) { //empty grid will result in file with 10 characters
             return false;
         }
-        
-        int numCommas = 0; //represents the number of commas in one row of the string
-        int numColumns = 0;
 
-        //create a test sting where empty boxes are represented by spaces for ease of testing
-        String testString = fileString.replace(",,", ", ,");
-        testString = testString.replace(",\n", ", \n");
-        testString = testString.replace("\n,", "\n ,");
-        
-        //in case the bottom right box is empty as the above replace() won't be able to insert a space to represent it
-        if(testString.charAt(testString.length() - 1) == ',') { 
-            testString += " "; 
-        }
+        String testString = fileFormatToGridFormat(fileString);
         
         //check to make sure first character in string indicating who's turn it is is properly formatted
         if(!charIsValid(fileString.charAt(0), validTurns)) {
             return false;
         } else if(fileString.charAt(1) != '\n') {
             return false;
+        } else if(!gridIsProperlyFormatted(testString, validMoves)) {
+            return false;
         }
+
+        return true;
+
+        
+    }
+
+    private static boolean gridIsProperlyFormatted(String testString, char[] validMoves) {
+        int numCommas = 0; //represents the number of commas in one row of the string
+        int numColumns = 0;
 
         //check rest of string to make sure for any possible formatting errors
         for(int i = 2; i < testString.length(); i++) {
@@ -127,7 +127,6 @@ public class GameSaveLoadManager {
                 }
             }
         }
-
         return true;
     }
 
@@ -158,5 +157,19 @@ public class GameSaveLoadManager {
             return null;
         }
         return fileString;
+    }
+
+    public static String fileFormatToGridFormat(String fileString) {
+        //create a test sting where empty boxes are represented by spaces for ease of testing
+        String testString = fileString.replace(",,", ", ,");
+        testString = testString.replace(",\n", ", \n");
+        testString = testString.replace("\n,", "\n ,");
+        
+        //in case the bottom right box is empty as the above replace() won't be able to insert a space to represent it
+        if(testString.charAt(testString.length() - 1) == ',') { 
+            testString += " "; 
+        }
+        
+        return testString;
     }
 }

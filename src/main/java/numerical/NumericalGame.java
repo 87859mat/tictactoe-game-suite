@@ -224,13 +224,8 @@ public class NumericalGame extends BoardGame implements Saveable{
     }
 
     public boolean isValidMove(int move) {
-        if(this.getState() == GameState.ETURN && validEven.contains(move)) {
-            return true;
-        } else if(this.getState() == GameState.OTURN && validOdd.contains(move)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.getState() == GameState.ETURN && validEven.contains(move)) 
+        || (this.getState() == GameState.OTURN && validOdd.contains(move));
     }
 
     /*

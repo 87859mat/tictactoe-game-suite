@@ -2,6 +2,7 @@ package tictactoe;
 
 import boardgame.BoardGame;
 import boardgame.Saveable;
+import utilities.GameSaveLoadManager;
 
 /**
  * This class represents a game of tic tac toe and 
@@ -116,15 +117,9 @@ public class TicTacToeGame extends BoardGame implements Saveable {
     }
 
     private boolean checkForDiagonalWin(String player) {
-        if (this.getGrid().getValue(1,1).equals(player) && this.getGrid().getValue(2,2).equals(player)
-            && this.getGrid().getValue(3,3).equals(player)) {
-            return true;
-        } else if (this.getGrid().getValue(3,1).equals(player) && this.getGrid().getValue(2,2).equals(player)
-            && this.getGrid().getValue(1,3).equals(player)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.getGrid().getValue(1,1).equals(player) && this.getGrid().getValue(2,2).equals(player)
+            && this.getGrid().getValue(3,3).equals(player)) || (this.getGrid().getValue(3,1).equals(player) 
+            && this.getGrid().getValue(2,2).equals(player) && this.getGrid().getValue(1,3).equals(player));
     }
 
     public boolean gridIsFull() {
@@ -235,8 +230,11 @@ public class TicTacToeGame extends BoardGame implements Saveable {
     @Override
     public void loadSavedString(String toLoad) {
         String thisLine;
+        this.getGrid().emptyGrid(); //empty any characters moves from current on-going game
+        toLoad = GameSaveLoadManager.fileFormatToGridFormat(toLoad);
         String[] lines = toLoad.split("\n");
         this.setState(this.charToState(lines[0].charAt(0)));
+
         for(int i = 1; i < lines.length; i++) {
             thisLine = lines[i].replace(",", "");
             for(int j = 0; j < thisLine.length(); j++) {
