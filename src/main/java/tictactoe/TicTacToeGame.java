@@ -95,7 +95,7 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         }
     }
 
-    private boolean checkForHorizontalWin(String player){
+    private boolean checkForVerticalWin(String player){
         for(int i = 1; i <= 3; i++) {
             if(this.getGrid().getValue(i, 1).equals(player) && this.getGrid().getValue(i, 2).equals(player)
             && this.getGrid().getValue(i, 3).equals(player)) {
@@ -105,7 +105,7 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         return false;
     }
 
-    private boolean checkForVerticalWin(String player){
+    private boolean checkForHorizontalWin(String player){
         for(int i = 1; i <= 3; i++) {
             if(this.getGrid().getValue(1, i).equals(player) && this.getGrid().getValue(2, i).equals(player)
             && this.getGrid().getValue(3, i).equals(player)) {
