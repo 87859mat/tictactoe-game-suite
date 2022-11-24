@@ -45,7 +45,7 @@ public class NumericalGame extends BoardGame implements Saveable{
         }
         
         if(!isValidMove(inputNum)) {
-            return false;
+            throw new RuntimeException("Invalid input");
         } else if(across < 0 || across > 2 || down < 0 || down > 2) {
             return false;
         } else if(!this.getGrid().getValue(across + 1, down + 1).equals(" ")) {
