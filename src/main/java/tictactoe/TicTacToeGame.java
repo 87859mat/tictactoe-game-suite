@@ -40,7 +40,7 @@ public class TicTacToeGame extends BoardGame implements Saveable {
     @Override
     public boolean takeTurn(int across, int down, String input) {
         if(!input.equals(this.getCurrentCharacter())) {
-            return false;
+            throw new RuntimeException("Not a valid move");
         } else if(across < 0 || across > 2 || down < 0 || down > 2) {
             return false;
         } else if(!this.getGrid().getValue(across + 1, down + 1).equals(" ")) {
@@ -243,6 +243,8 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         }
         this.setState(charToState(toLoad.charAt(0)));
     }
+
+
 
     /**
      * Returns a string briefly summarizing the game's state.<br><br>

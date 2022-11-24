@@ -30,15 +30,19 @@ public class TextUI {
             System.out.println("If you would like to save this current game, enter S. Enter Q to quit:");
             playerInput = inputScanner.nextLine();
             move = getGetMoveFromInput(playerInput) - 1;
-            if(this.game.takeTurn(move % 3, move/3, this.game.getCurrentCharacter())){
-                validMove = true;
-            } else if(playerInput.equalsIgnoreCase("L")) {
-                loadGameMessage();
-            } else if(playerInput.equalsIgnoreCase("S")) {
-                saveGameMessage();
-            } else if(playerInput.equalsIgnoreCase("Q")){
-                quitGameMessage();
-            } else {
+            try{
+                if(this.game.takeTurn(move % 3, move/3, this.game.getCurrentCharacter())){
+                    validMove = true;
+                } else if(playerInput.equalsIgnoreCase("L")) {
+                    loadGameMessage();
+                } else if(playerInput.equalsIgnoreCase("S")) {
+                    saveGameMessage();
+                } else if(playerInput.equalsIgnoreCase("Q")){
+                    quitGameMessage();
+                } else {
+                    System.out.println("That was not a valid move\n");
+                }
+            } catch (RuntimeException e) {
                 System.out.println("That was not a valid move\n");
             }
         }
