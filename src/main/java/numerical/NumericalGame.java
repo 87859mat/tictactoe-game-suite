@@ -116,30 +116,34 @@ public class NumericalGame extends BoardGame implements Saveable{
     }
 
     private boolean checkForVerticalWin(){
-        try{
+        
             for(int i = 1; i <= 3; i++) {
-                if(Integer.parseInt(this.getGrid().getValue(i, 1)) + Integer.parseInt(this.getGrid().getValue(i, 2))
-                + Integer.parseInt(this.getGrid().getValue(i, 3)) == 15) {
-                    return true;
-                }
+                try{
+                    if(Integer.parseInt(this.getGrid().getValue(i, 1)) + Integer.parseInt(this.getGrid().getValue(i, 2))
+                    + Integer.parseInt(this.getGrid().getValue(i, 3)) == 15) {
+                        return true;
+                    }
+                } catch(NumberFormatException e) {
+                    return false;
+                } 
             }
-        } catch(NumberFormatException e) {
-            return false;
-        } 
+ 
         return false;
     }
 
     private boolean checkForHorizontalWin(){
-         try{   
+            
             for(int i = 1; i <= 3; i++) {
-                if(Integer.parseInt(this.getGrid().getValue(1, i)) + Integer.parseInt(this.getGrid().getValue(2, i))
-                + Integer.parseInt(this.getGrid().getValue(3, i)) == 15) {
-                    return true;
+                try{      
+                    if(Integer.parseInt(this.getGrid().getValue(1, i)) + Integer.parseInt(this.getGrid().getValue(2, i))
+                        + Integer.parseInt(this.getGrid().getValue(3, i)) == 15) {
+                            return true;
+                        }
+                } catch(NumberFormatException e) {
+                    continue;
                 }
             }
-         } catch(NumberFormatException e) {
-            return false;
-         }
+
         return false;
     }
 
@@ -148,12 +152,18 @@ public class NumericalGame extends BoardGame implements Saveable{
             if (Integer.parseInt(this.getGrid().getValue(1,1)) + Integer.parseInt(this.getGrid().getValue(2,2))
                 + Integer.parseInt(this.getGrid().getValue(3,3)) == 15) {
                 return true;
-            } else if (Integer.parseInt(this.getGrid().getValue(1,3)) + Integer.parseInt(this.getGrid().getValue(2,2))
-            + Integer.parseInt(this.getGrid().getValue(3,1)) == 15) {
-                return true;
             } 
         } catch(NumberFormatException e){
-            return false;
+
+        }
+
+        try{
+            if(Integer.parseInt(this.getGrid().getValue(1,3)) + Integer.parseInt(this.getGrid().getValue(2,2))
+                + Integer.parseInt(this.getGrid().getValue(3,1)) == 15) {
+                    return true;
+            } 
+        } catch (NumberFormatException e) {
+
         }
         return false;
     }
