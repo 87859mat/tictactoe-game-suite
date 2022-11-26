@@ -42,7 +42,7 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         if(!input.equals(this.getCurrentCharacter())) {
             throw new RuntimeException("Not a valid move");
         } else if(across < 0 || across > 2 || down < 0 || down > 2) {
-            return false;
+            throw new RuntimeException("ERROR: Somehow an invalid row/column has been selected");
         } else if(!this.getGrid().getValue(across + 1, down + 1).equals(" ")) {
             return false;
         } else {

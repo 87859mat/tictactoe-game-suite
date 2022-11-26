@@ -47,14 +47,13 @@ public class NumericalGame extends BoardGame implements Saveable{
         if(!isValidMove(inputNum)) {
             throw new RuntimeException("Invalid input");
         } else if(across < 0 || across > 2 || down < 0 || down > 2) {
-            return false;
+            throw new RuntimeException("ERROR: Somehow, an invalid row/column was selected");
         } else if(!this.getGrid().getValue(across + 1, down + 1).equals(" ")) {
             return false;
         } else {
             //we have to do +1 because the textUI's calculations can only use the real indexes (starting from 0)
             this.setValue(across + 1, down + 1, input);
             removePossibleMove(inputNum);
-            switchTurns();
             return true;
         }
     }
@@ -75,16 +74,15 @@ public class NumericalGame extends BoardGame implements Saveable{
     @Override
     public boolean takeTurn(int across, int down, int input){
         if(!isValidMove(input)) {
-            throw new RuntimeException();
+            throw new RuntimeException("ERROR: Invalid Move");
         } else if(across < 0 || across > 2 || down < 0 || down > 2) {
-            return false;
+            throw new RuntimeException("ERROR: Somehow, an invalid row/column was selected");
         } else if(!this.getGrid().getValue(across + 1, down + 1).equals(" ")) {
             return false;
         } else {
             //we have to do +1 because the textUI's calculations can only use the real indexes (starting from 0)
             this.setValue(across + 1, down + 1, input);
             removePossibleMove(input);
-            switchTurns();
             return true;
         }
     }
@@ -247,6 +245,16 @@ public class NumericalGame extends BoardGame implements Saveable{
         return new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     }
 
+    public ArrayList<Integer> getCurrentMoveOptions() {
+        if(this.state == GameState.ETURN) {
+            return this.validEven;
+        } else if(this.state == GameState.OTURN) {
+            return this.validOdd;
+        } else {
+            return null;
+        }
+    }
+
     private GameState charToState(char stateChar) {
         if(stateChar == 'E') {
             return GameState.ETURN;
@@ -257,7 +265,7 @@ public class NumericalGame extends BoardGame implements Saveable{
         }
     }
 
-    private void switchTurns() {
+    public void switchTurns() {
         if(this.state == GameState.ETURN) {
             this.setState(GameState.OTURN);
         } else if(this.state == GameState.OTURN) {
@@ -267,9 +275,9 @@ public class NumericalGame extends BoardGame implements Saveable{
 
     private void removePossibleMove(int move) {
         if(move % 2 == 0) {
-            validEven.remove(move);
+            validEven.remove(validEven.indexOf(move));
         } else {
-            validOdd.remove(move);
+            validOdd.remove(validOdd.indexOf(move));
         }
     }
 
@@ -298,6 +306,28 @@ public class NumericalGame extends BoardGame implements Saveable{
             }
         }
         this.setState(charToState(toLoad.charAt(0)));
+        updateValidMoves();
+    }
+
+    private void updateValidMoves() {
+        this.validEven = new ArrayList<Integer>(Arrays.asList(2,4,6,8));
+        this.validOdd = new ArrayList<Integer>(Arrays.asList(1,3,5,7,9));
+        String element = this.getNextValue();
+        int elementNum;
+        
+        while(element != null){
+            try {
+                elementNum = Integer.parseInt(element);
+                if(validEven.contains(elementNum)) {
+                    validEven.remove(validEven.indexOf(elementNum));
+                } else if(validOdd.contains(elementNum)) {
+                    validOdd.remove(validOdd.indexOf(elementNum));
+                }
+            } catch (NumberFormatException e) {
+
+            }
+            element = this.getNextValue();
+        } 
     }
 
     /**
