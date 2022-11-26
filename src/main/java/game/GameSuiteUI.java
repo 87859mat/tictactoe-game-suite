@@ -34,9 +34,6 @@ public class GameSuiteUI extends JFrame{
         this.setTitle("Eyoel's Game Suite");
         this.setSize(WIDTH, HEIGHT);
 
-        this.setUpMenuBar();
-        this.setJMenuBar(this.menuBar);
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         suiteContainer = new JPanel();
@@ -45,6 +42,8 @@ public class GameSuiteUI extends JFrame{
     }
 
     public void startScreen() {
+        this.setUpMenuBar();
+        this.setJMenuBar(this.menuBar);
         suiteContainer.removeAll();
         suiteContainer.setLayout(new BorderLayout());
         suiteContainer.add(makeWelcomeMessage(), BorderLayout.NORTH);
