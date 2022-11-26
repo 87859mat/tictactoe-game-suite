@@ -3,6 +3,8 @@ package numerical;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.management.RuntimeErrorException;
+
 import boardgame.BoardGame;
 import boardgame.Saveable;
 
@@ -41,11 +43,11 @@ public class NumericalGame extends BoardGame implements Saveable{
         try {
            inputNum = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            return false;
+            throw new RuntimeException("That is not a valid move");
         }
         
         if(!isValidMove(inputNum)) {
-            throw new RuntimeException("Invalid input");
+            throw new RuntimeException("That is not a valid move");
         } else if(across < 0 || across > 2 || down < 0 || down > 2) {
             throw new RuntimeException("ERROR: Somehow, an invalid row/column was selected");
         } else if(!this.getGrid().getValue(across + 1, down + 1).equals(" ")) {
