@@ -36,7 +36,7 @@ public class GameSaveLoadManager {
 
     public static void loadPlayer(Saveable player, String filename) throws IOException{
         String fileString = getStringFromFile(filename);
-        if(fileString == null || fileString.length() < 4){ //smallest possible player file is 4 chars long (name = "")
+        if(fileString == null || fileString.length() < 6){ //smallest possible player file is 6 chars long (name = "")
             throw new IOException("ERROR: fileString was null");
         } else if(!validPlayerString(fileString)) {
             throw new IOException("ERROR: file was not a valid player file");
@@ -49,18 +49,20 @@ public class GameSaveLoadManager {
         String[] seperated = fileString.split(",");
         int gamesPlayed;
         int gamesWon;
+        int gamesLost;
         
-        if(seperated.length != 3) {
+        if(seperated.length != 4) {
             return false;
         }
 
         try {
             gamesPlayed = Integer.parseInt(seperated[1]);
             gamesWon = Integer.parseInt(seperated[2]);
+            gamesLost = Integer.parseInt(seperated[3]);
 
-            if(gamesPlayed < gamesWon){
+            if(gamesPlayed < (gamesWon + gamesLost)){
                 return false;
-            } else if(gamesPlayed < 0 || gamesWon < 0) {
+            } else if(gamesPlayed < 0 || gamesWon < 0 || gamesLost < 0) {
                 return false;
             }
 

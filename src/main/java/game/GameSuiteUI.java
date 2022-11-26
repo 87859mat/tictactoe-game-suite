@@ -158,13 +158,13 @@ public class GameSuiteUI extends JFrame{
     public void incrementPlayerScores(int winningPlayer) {
         if(winningPlayer == 1) {
             player1.updateWithWin();
-            player2.updateWithNonWin();
+            player2.updateWithLoss();
         } else if(winningPlayer == 2) {
-            player1.updateWithNonWin();
+            player1.updateWithLoss();
             player2.updateWithWin();
         } else {
-            player1.updateWithNonWin();
-            player2.updateWithNonWin();
+            player1.updateWithTie();
+            player2.updateWithTie();
         }
     }
 

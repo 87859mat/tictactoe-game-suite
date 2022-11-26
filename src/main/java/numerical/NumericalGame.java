@@ -186,9 +186,9 @@ public class NumericalGame extends BoardGame implements Saveable{
      */
     @Override
     public int getWinner() {
-        if(this.state == GameState.EWIN) {
+        if(this.state == GameState.OWIN) {
             return 1;
-        } else if(this.state == GameState.OWIN) {
+        } else if(this.state == GameState.EWIN) {
             return 2;
         } else if(this.state == GameState.TIE) {
             return 0;
