@@ -1,5 +1,4 @@
 package game;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -131,6 +130,10 @@ public class GameSuiteUI extends JFrame{
      */
     private void loadPlayerFromFile() {
 
+    }
+
+    public void incrementPlayerScores() {
+        
     }
 
     //Accessor and Mutators
