@@ -340,7 +340,8 @@ public class NumericalGame extends BoardGame implements Saveable{
      */
     @Override
     public String toString() {
-        return "***Tic tac tac game***\nTurn/state: " + getGameStateMessage() + "\n\n" + this.getGrid().toString();
+        return "***Numerical Tic tac toe game***\nTurn/state: " + getGameStateMessage() 
+        + "\n\n" + this.getGrid().toString();
     }
 
 
