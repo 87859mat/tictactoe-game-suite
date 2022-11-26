@@ -28,6 +28,7 @@ In this implementation two players play on the same keyboard and are labled play
 
 - You can only save and load data for player one (I guess 
 you can consider player 2 a glorified CPU)
+- Players are all named "Anonymous"
 
 ## Author Information
 

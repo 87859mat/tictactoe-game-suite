@@ -104,7 +104,7 @@ public class TicTacToeView extends JPanel{
             quitButton.setText("Return to start screen");    
             this.gameStateText.setText("Game Over: " + this.game.getGameStateMessage());
             disableButtonGrid();
- 
+            rootFrame.incrementPlayerScores(game.getWinner());
         } else {
             game.switchTurns();
         }

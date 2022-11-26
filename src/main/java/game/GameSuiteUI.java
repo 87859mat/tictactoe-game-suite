@@ -1,17 +1,21 @@
 package game;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import numerical.NumericalView;
 import tictactoe.TicTacToeView;
 
 import java.awt.BorderLayout;
+import java.io.File;
 
+import utilities.GameSaveLoadManager;
 import utilities.Player;
 
 /**
@@ -27,10 +31,15 @@ public class GameSuiteUI extends JFrame{
     
     private JPanel suiteContainer;
     private JMenuBar menuBar;
+    private JFileChooser playerIOFileChooser;
     private Player player1;
     private Player player2;
 
     public GameSuiteUI() {
+        player1 = new Player();
+        player2 = new Player();
+        playerIOFileChooser = new JFileChooser(".");
+        
         this.setTitle("Eyoel's Game Suite");
         this.setSize(WIDTH, HEIGHT);
 
@@ -120,7 +129,11 @@ public class GameSuiteUI extends JFrame{
      * little pop up to choose their file
      */
     private void savePlayerToFile() {
-
+        try{
+            GameSaveLoadManager.save(player1, promptUserForFile());
+        } catch(Exception e) {
+            displayNotification("There was trouble saving this player: \n" + e.getMessage());
+        }
     }
 
     /*
@@ -129,11 +142,57 @@ public class GameSuiteUI extends JFrame{
      * little pop up to choose their file
      */
     private void loadPlayerFromFile() {
-
+        try{
+            GameSaveLoadManager.loadPlayer(player1, promptUserForFile());
+        } catch(Exception e) {
+            displayNotification("There was trouble loading this player: \n" + e.getMessage());
+        }
     }
 
-    public void incrementPlayerScores() {
+    /**
+     * Increments the scores of the players based on the results of the game
+     * @param winningPlayer An integer describing which player won the game.
+     * 1 indicates that player 1 won the game, 2 indicates that player 2 won the
+     * game and any other value indicates a tie
+     */
+    public void incrementPlayerScores(int winningPlayer) {
+        if(winningPlayer == 1) {
+            player1.updateWithWin();
+            player2.updateWithNonWin();
+        } else if(winningPlayer == 2) {
+            player1.updateWithNonWin();
+            player2.updateWithWin();
+        } else {
+            player1.updateWithNonWin();
+            player2.updateWithNonWin();
+        }
+    }
+
+    private String promptUserForFile() {
+        if(playerIOFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                String pathToFile = getRelativePathOfIOFile(playerIOFileChooser.getSelectedFile().getAbsolutePath());
+                return pathToFile; 
+            } catch(Exception e) {
+                displayNotification("There was an issue with opening that file:\n" + e.getMessage());
+            }
+        } else {
+            displayNotification("There was an issue with opening a file");
+        }
+        return null;
+    }
+
+    private String getRelativePathOfIOFile(String absolutePath) {
+        File currentDirectory = new File(System.getProperty("user.dir"));
+        String pathToWorkingDirectory = currentDirectory.getAbsolutePath();
         
+        String pathOfIOFile = absolutePath.replace(pathToWorkingDirectory, "");
+        pathOfIOFile = pathOfIOFile.substring(1);
+        return pathOfIOFile;
+    } 
+
+    private void displayNotification(String notiString) {
+        JOptionPane.showMessageDialog(null, notiString);
     }
 
     //Accessor and Mutators

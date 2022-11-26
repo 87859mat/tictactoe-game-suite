@@ -34,15 +34,14 @@ public class GameSaveLoadManager {
         }
     }
 
-    public static boolean loadPlayer(Saveable player, String filename) {
+    public static void loadPlayer(Saveable player, String filename) throws IOException{
         String fileString = getStringFromFile(filename);
         if(fileString == null || fileString.length() < 4){ //smallest possible player file is 4 chars long (name = "")
-            return false;
+            throw new IOException("ERROR: fileString was null");
         } else if(!validPlayerString(fileString)) {
-            return false;
+            throw new IOException("ERROR: file was not a valid player file");
         } else {
             player.loadSavedString(fileString);
-            return true;
         }
     }
 
