@@ -173,6 +173,12 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         }
     }
 
+    /**
+     * Returns a string representation of which player's turn it is
+     * @return X or O or null depending on whether it is the X player's or 
+     * O player's turn or neither (happens when game is over in which case
+     * null is returned)
+     */
     public String getCurrentCharacter() {
         if(this.state==GameState.XTURN) {
             return "X";

@@ -7,6 +7,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import tictactoe.TicTacToeView;
+
 import java.awt.BorderLayout;
 
 import utilities.Player;
@@ -99,7 +102,11 @@ public class GameSuiteUI extends JFrame{
     }
 
     private void startTTT() {
-
+        suiteContainer.removeAll();
+        suiteContainer.add(new TicTacToeView(this),BorderLayout.CENTER);
+        this.getContentPane().repaint();
+        this.getContentPane().revalidate();
+        //pack();
     }
 
     private void startNumerical() {
