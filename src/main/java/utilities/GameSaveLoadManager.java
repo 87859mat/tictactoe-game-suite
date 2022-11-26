@@ -16,24 +16,21 @@ import boardgame.Saveable;
  * @author Eyoel Matiwos
  */
 public class GameSaveLoadManager {
-    public static boolean save(Saveable toSave, String fileName) {
+    public static void save(Saveable toSave, String fileName) throws IOException{
         try(FileWriter fWriter = new FileWriter(fileName)) {
             fWriter.write(toSave.getStringToSave());
         } catch(IOException e) {
-            return false;
+            throw new IOException("ERROR: IOException was thrown by FileWriter.write() when trying to save");
         }
-
-        return true;
     }
-    public static boolean loadGame(Saveable game, String filename, char[] validTurns, char[] validMoves) {
-        String fileString = getStringFromFile(filename);
+    public static void loadGame(Saveable game, String fname, char[] validTurns, char[] validMoves) throws IOException{
+        String fileString = getStringFromFile(fname);
         if(fileString == null){
-            return false;
+            throw new IOException("ERROR: fileString was null\n");
         } else if(!validGameString(fileString, validTurns, validMoves)) {
-            return false;
+            throw new IOException("ERROR: chosen file was not a valid game save file");
         } else {
             game.loadSavedString(fileString);
-            return true;
         }
     }
 

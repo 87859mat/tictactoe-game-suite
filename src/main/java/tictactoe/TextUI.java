@@ -52,10 +52,10 @@ public class TextUI {
         System.out.print("Please enter the file or relative path (from the 'A3' directory) ");
         System.out.println("of the file you want to load from:");
         String fName = inputScanner.nextLine();
-        boolean loaded = GameSaveLoadManager.loadGame(game, fName, game.getTurnCharacters(),game.getMoveCharacters());
-
-        if(!loaded) {
-            System.out.println("\n\nERROR: game could not be loaded from the selected file");
+        try {
+            GameSaveLoadManager.loadGame(game, fName, game.getTurnCharacters(),game.getMoveCharacters());
+        } catch(Exception e) {
+            System.out.println("\n\nERROR: game could not be loaded from the selected file:\n" + e.getMessage());
         }
     }
 
@@ -63,9 +63,10 @@ public class TextUI {
         System.out.print("Please enter the file or relative path (from the 'A3' directory) ");
         System.out.println("of the file where you would like to save the game:");
         String fileName = inputScanner.nextLine();
-        boolean successful = GameSaveLoadManager.save(game, fileName);
-        if(!successful) {
-            System.out.println("\nERROR: Unable to save to that file\n");
+        try { 
+            GameSaveLoadManager.save(game, fileName);
+        } catch (Exception e) {
+            System.out.println("\nERROR: Unable to save to that file:\n" + e.getMessage());
         }
     }
 
@@ -90,6 +91,7 @@ public class TextUI {
     public void play() {
         while(!game.isDone()) {
             makeMove();
+            game.switchTurns();
         }
         System.out.println("\n\nGame Over: " + game.getGameStateMessage() + "\n"); //let's user know end result of game
     }

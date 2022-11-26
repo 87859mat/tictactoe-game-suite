@@ -48,7 +48,6 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         } else {
             //we have to do +1 because the textUI's calculations can only use the real indexes (starting from 0)
             this.setValue(across + 1, down + 1, input);
-            switchTurns();
             return true;
         }
     }
@@ -212,7 +211,7 @@ public class TicTacToeGame extends BoardGame implements Saveable {
         }
     }
 
-    private void switchTurns() {
+    public void switchTurns() {
         if(this.state == GameState.XTURN) {
             this.setState(GameState.OTURN);
         } else if(this.state == GameState.OTURN) {

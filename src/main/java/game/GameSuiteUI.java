@@ -52,7 +52,7 @@ public class GameSuiteUI extends JFrame{
 
         this.getContentPane().repaint();
         this.getContentPane().revalidate();
-        pack();
+        //pack();
     }
 
     private void setUpMenuBar() {
@@ -75,7 +75,7 @@ public class GameSuiteUI extends JFrame{
      */
     private JPanel makeChooseGamePanel() {
         JPanel chooseGamePanel = new JPanel();
-        chooseGamePanel.setLayout(new BoxLayout(chooseGamePanel, BoxLayout.X_AXIS));
+        //chooseGamePanel.setLayout(new BoxLayout(chooseGamePanel, BoxLayout.X_AXIS));
 
         JButton tictactoeButton = new JButton("Tic Tac Toe");
         tictactoeButton.addActionListener(e -> startTTT());
@@ -90,13 +90,11 @@ public class GameSuiteUI extends JFrame{
 
     private JPanel makeWelcomeMessage() {
         JPanel welcomePanel = new JPanel();
-        welcomePanel.setLayout(new BoxLayout(welcomePanel, BoxLayout.Y_AXIS));
+        //welcomePanel.setLayout(new BoxLayout(welcomePanel, BoxLayout.Y_AXIS));
 
-        JLabel welcomeMsg = new JLabel("Welcome to Eyoel's Game Suite!");
-        JLabel promptMsg = new JLabel("Click one of the buttons below to start a game");
+        JLabel welcomeMsg = new JLabel("Welcome to Eyoel's Game Suite! Click one of the buttons below to start a game");
 
         welcomePanel.add(welcomeMsg);
-        welcomePanel.add(promptMsg);
 
         return welcomePanel;
     }
